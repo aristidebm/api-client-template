@@ -1,11 +1,27 @@
-from typing import Callable
 import httpx
+
+from .types_1 import ExceptionHandler, ResponseErrorHandler
+from .exceptions import APINameException
 
 
 class Client:
-    def __init__(self, base_url: str, session: httpx.Client = None):
+
+    def __init__(
+        self,
+        base_url: str,
+        session: httpx.Client = None,
+        *,
+        exception_handler: ExceptionHandler = None,
+        response_error_handler: ResponseErrorHandler = None,
+    ):
         self._base_url = base_url.removesuffix("/")
         self._session = session or self._get_default_session()
+        self._exception_handler = (
+            exception_handler or self._get_default_exception_handler()
+        )
+        self._response_error_handeler = (
+            response_error_handler or self._get_default_reponse_error_handler()
+        )
 
     @property
     def base_url(self) -> str:  # immutable
@@ -22,26 +38,23 @@ class Client:
         *,
         data: dict,
         headers: dict,
-        exception_handler: Callable = None,
-        response_error_handler: Callable = None,
         **kwagrs,
     ):
         url = f"{self.base_url}/{endpoint}"
 
-        exception_handler = exception_handler or self._get_default_exception_handler()
-
         try:
             response = self.session.build_request(
-                url=url, method=method, data=data, headers=headers**kwagrs
+                url=url,
+                method=method,
+                data=data,
+                headers=headers,
+                **kwagrs,
             )
         except Exception as exp:
-            exception_handler(exp)
+            self._exception_handler(exp)
 
         if not response.ok:
-            response_error_handler = (
-                response_error_handler or self._get_default_reponse_error_handler()
-            )
-            response_error_handler(response)
+            self._response_error_handeler(response)
 
         return response.json()
 
@@ -51,6 +64,7 @@ class Client:
     def _get_default_exception_handler(self):
         def exception_handler(exp: Exception):
             raise exp
+
         return exception_handler
 
     def _get_default_reponse_error_handler(self):
@@ -60,11 +74,11 @@ class Client:
             code: str = None,
             errors: dict = None,
         ):
-            code = code or response.status_code
+            code = code
             message = message
             errors = errors or {}
 
-            codes_to_exception: dict[str, Exception] = {}
+            codes_to_exception: dict[str, APINameException] = {}
 
             exception = codes_to_exception.get(code)
 
@@ -75,5 +89,4 @@ class Client:
                     response=response,
                     errors=errors,
                 )
-
         return response_error_handler
