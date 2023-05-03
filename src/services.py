@@ -23,6 +23,6 @@ class Service:
         method = "GET"
         data = {}
         headers = {}
-        self.client.request(
+        return self.client.request(
             method=method, endpoint=endpoint, data=data, headers=headers
         )

@@ -5,7 +5,6 @@ from .exceptions import APINameException
 
 
 class Client:
-
     def __init__(
         self,
         base_url: str,
@@ -89,4 +88,5 @@ class Client:
                     response=response,
                     errors=errors,
                 )
+
         return response_error_handler

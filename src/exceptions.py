@@ -1,5 +1,6 @@
 import httpx
 
+
 class APINameException(Exception):
     def __init__(
         self,

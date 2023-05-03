@@ -1,9 +1,9 @@
 install:
-	poetry install  --no-dev
+	poetry install --no-dev
 
 install_dev:
 	poetry install
 
 codestyle:
-	ruff -v check src
-	black --check src
+	poetry run task lint
+	poetry run task format

@@ -7,10 +7,21 @@ license = "mit"
 readme = "README.md"
 packages = [{include = "src"}]
 
+# [tool.poetry.scripts]
+# lint = "ruff check src"
+# format = "black --check src"
+
+# provide npm interface to run script with poetry
+# poetry task lint
+[tool.taskipy.tasks]
+lint = "ruff check src"
+format = "black --check src"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 httpx = "^0.24.0"
 python-dotenv = "^1.0.0"
+taskipy = "^1.10.4"
 
 
 [tool.poetry.group.dev.dependencies]
