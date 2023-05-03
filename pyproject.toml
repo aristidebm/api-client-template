@@ -5,7 +5,7 @@ description = ""
 authors = ["Aristide <aristide.bamazi@imsp-uac.org>"]
 license = "mit"
 readme = "README.md"
-# packages = [{include = "api_client_template"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -16,6 +16,7 @@ python-dotenv = "^1.0.0"
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
 ruff = "^0.0.264"
+pre-commit = "^3.3.1"
 
 [build-system]
 requires = ["poetry-core"]

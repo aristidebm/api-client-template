@@ -5,5 +5,5 @@ install_dev:
 	poetry install
 
 codestyle:
-	ruff -v check .
-	black --check .
+	ruff -v check src
+	black --check src

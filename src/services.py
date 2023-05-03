@@ -6,7 +6,7 @@ class Service:
         self._client = client
 
     @property
-    def client(self):  # immutable
+    def client(self) -> Client:  # immutable
         return self._client
 
     def command(self, *args, **kwargs):
