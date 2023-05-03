@@ -1,10 +1,10 @@
 import httpx
 
 from .types_1 import ExceptionHandler, ResponseErrorHandler
-from .exceptions import APINameException
+from .exceptions import ApiNameException
 
 
-class Client:
+class ApiClient:
     def __init__(
         self,
         base_url: str,
@@ -23,11 +23,11 @@ class Client:
         )
 
     @property
-    def base_url(self) -> str:  # immutable
+    def base_url(self) -> str:
         return self._base_url
 
     @property
-    def session(self) -> httpx.Client:  # immutable
+    def session(self) -> httpx.Client:
         return self._session
 
     def request(
@@ -77,7 +77,7 @@ class Client:
             message = message
             errors = errors or {}
 
-            codes_to_exception: dict[str, APINameException] = {}
+            codes_to_exception: dict[str, ApiNameException] = {}
 
             exception = codes_to_exception.get(code)
 

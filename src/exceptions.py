@@ -1,7 +1,7 @@
 import httpx
 
 
-class APINameException(Exception):
+class ApiNameException(Exception):
     def __init__(
         self,
         message: str = None,
@@ -19,11 +19,11 @@ class APINameException(Exception):
         return self.__cause__
 
 
-class ApiNameBusinessException(APINameException):
+class ApiNameBusinessException(ApiNameException):
     ...
 
 
-class ApiNameTechinalException(APINameException):
+class ApiNameTechinalException(ApiNameException):
     ...
 
 

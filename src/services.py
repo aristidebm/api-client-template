@@ -1,12 +1,12 @@
-from .client import Client
+from .client import ApiClient
 
 
 class Service:
-    def __init__(self, client: Client):
+    def __init__(self, client: ApiClient):
         self._client = client
 
     @property
-    def client(self) -> Client:  # immutable
+    def client(self) -> ApiClient:
         return self._client
 
     def command(self, *args, **kwargs):
