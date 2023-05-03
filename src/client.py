@@ -15,10 +15,11 @@ class ApiClient:
     ):
         self._base_url = base_url.removesuffix("/")
         self._session = session or self._get_default_session()
+        self.session.base_url = base_url
         self._exception_handler = (
             exception_handler or self._get_default_exception_handler()
         )
-        self._response_error_handeler = (
+        self._response_error_handler = (
             response_error_handler or self._get_default_reponse_error_handler()
         )
 
@@ -32,28 +33,27 @@ class ApiClient:
 
     def request(
         self,
-        method: str,
         endpoint: str,
         *,
-        data: dict,
-        headers: dict,
+        method: str = None,
+        data: dict = None,
+        headers: dict = None,
+        params: str = None,
         **kwagrs,
     ):
-        url = f"{self.base_url}/{endpoint}"
-
         try:
-            response = self.session.build_request(
-                url=url,
+            response = self.session.request(
+                url=endpoint,
                 method=method,
                 data=data,
                 headers=headers,
-                **kwagrs,
+                params=params**kwagrs,
             )
+            response.raise_for_status()
+        except httpx.HTTPStatusError as exp:
+            self._response_error_handler(exp.response)
         except Exception as exp:
             self._exception_handler(exp)
-
-        if not response.ok:
-            self._response_error_handeler(response)
 
         return response.json()
 

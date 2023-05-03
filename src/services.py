@@ -21,8 +21,8 @@ class Service:
     def query(self, *args, **kwargs):
         endpoint = "/query"
         method = "GET"
-        data = {}
+        params = {}
         headers = {}
         return self.client.request(
-            method=method, endpoint=endpoint, data=data, headers=headers
+            method=method, endpoint=endpoint, params=params, headers=headers
         )
