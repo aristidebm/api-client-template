@@ -4,6 +4,8 @@ install:
 install_dev:
 	poetry install
 
-codestyle:
+lint:
 	poetry run task lint
+
+format:
 	poetry run task format

@@ -14,8 +14,30 @@ packages = [{include = "src"}]
 # provide npm interface to run script with poetry
 # poetry task lint
 [tool.taskipy.tasks]
-lint = "ruff check src"
-format = "black --check src"
+lint = { cmd = "sh ./scripts/lint.sh" }
+format = { cmd = "sh ./scripts/format.sh"}
+
+[tool.isort]
+profile = "black"
+known_third_party = ["src"]
+
+# ruff config starting point
+[tool.ruff]
+# Enable flake8-bugbear (`B`) rules.
+select = ["E", "F", "B"]
+
+# Never enforce `E501` (line length violations).
+ignore = ["E501"]
+
+# Avoid trying to fix flake8-bugbear (`B`) violations.
+unfixable = ["B"]
+
+# Ignore `E402` (import violations) in all `__init__.py` files.
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402"]
+
+[tool.ruff.isort]
+known-third-party = ["src"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -28,6 +50,7 @@ taskipy = "^1.10.4"
 black = "^23.3.0"
 ruff = "^0.0.264"
 pre-commit = "^3.3.1"
+isort = "^5.12.0"
 
 [build-system]
 requires = ["poetry-core"]
