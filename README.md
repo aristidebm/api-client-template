@@ -80,6 +80,11 @@ raise APIException(
     response=response,
 ) from causeExceptionInstance # Chain the cause
 
-``` 
+```
++ The client must throw only throw technical errors.
++ The service must throw only throw business errors.
+
+## Exception handling flow
+![Exception handling flow diagram](docs/Exception-handling-flow-in-api-clients.png)
 
 ## Case studies  

@@ -52,8 +52,10 @@ class ApiClient:
             response.raise_for_status()
         except httpx.HTTPStatusError as exp:
             self._response_error_handler(exp.response)
+            # self.session.close()
         except Exception as exp:
             self._exception_handler(exp)
+            # self.session.close()
 
         return response.json()
 
